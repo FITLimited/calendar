@@ -1,0 +1,201 @@
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+// Variables
+@import "variables";
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto;
+}
+
+body {
+  background-color: white;
+  .no-padding {
+  }
+}
+
+.row{
+  .part{
+  float: left;
+  &.width-20{
+    width: 20%;
+  }
+  &.width-80{
+    width: 80%;
+  }
+}
+}
+
+.box-shadow{
+  box-shadow: 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12);
+}
+
+
+#calendar {
+  width: 100%;
+
+
+  .calendar-table {
+    float: left;
+    width: 100%;
+    overflow-x: hidden;
+    .row-table{
+      float: left;
+      width: 101%;
+      background-color: rgb(234, 234, 234);
+      .col-table{
+        float: left;
+        background-color: white;
+        span{
+          line-height: 40px;
+        }
+      }
+    }
+  }
+  .col-table {
+    text-align: center;
+    border-right: 1px dashed #e2e2e2;
+    height: 40px;
+    border-bottom: 1px solid #d8d8d8;
+  }
+
+  .date .col-table {
+    float: left;
+    text-align: center;
+    background-color: #f3f3f3;
+    border-right: 1px solid #e2e2e2;
+    padding: 5px;
+    font-size: 14px;
+    line-height: 16px;
+    height: 70px;
+
+    i {
+      display: none;
+      width: 100%;
+      height: 39px;
+
+      &.birthday {
+        display: block;
+        background-color: cornflowerblue;
+      }
+      &.disease {
+        display: block;
+        background-color: red;
+      }
+    }
+  }
+
+  span {
+    small {
+      font-size: 11px;
+    }
+  }
+}
+
+.navigate-calendar {
+  width: 100%;
+  text-align: right;
+  line-height: 46px;
+
+  .md-button {
+    min-width: 39px;
+    padding: 0px !important;
+  }
+
+}
+
+.user-list {
+  width: 100%;
+  border-right: 1px solid #f3f3f3;
+  list-style: none;
+  margin-bottom: 0px;
+
+  li {
+    height: 40px;
+    line-height: 40px;
+    margin-top: 0px !important;
+    padding-left: 20px;
+    border-bottom: 1px solid #d8d8d8;
+
+    &:first-child{
+      height: 70px;
+      padding-top: 17px;
+    }
+
+    a {
+      color: #1d93bb !important;
+    }
+    .md-button{
+      margin: 0px !important;
+      min-width: 40px;
+    }
+  }
+}
+
+#sort_list {
+  width: 96%;
+  border: 1px solid #d8d8d8;
+  border-radius: 25px;
+  height: 30px;
+  outline: none;
+  padding: 0px 15px;
+  transition: all linear 0.2s;
+
+  &:focus {
+    border: 1px solid #1d93bb;
+  }
+}
+
+#navigate_panel {
+  width: 100%;
+  background-color: #3f51b5;
+  color: white;
+  padding: 5px 15px;
+  text-align: right;
+  .md-title {
+    margin: 0;
+    float: left;
+    color: white;
+    padding: 11px;
+  }
+  #login_menu {
+    .md-button {
+      min-width: 39px;
+      padding: 0px 15px;
+    }
+  }
+}
+
+.vdp-datepicker{
+  padding-top: 26px;
+  input{
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all .4s cubic-bezier(.25,.8,.25,1);
+
+    &:focus{
+      border-bottom: 2px solid #3f51b5;
+    }
+  }
+}
+
+.md-button{
+  &.no-padding{
+    padding: 0px !important;
+  }
+}
+
+#login_form {
+  margin-top: 40px;
+}
+
+.md-dialog{
+  width: 650px;
+  height: 620px;
+}

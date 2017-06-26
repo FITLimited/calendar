@@ -11723,8 +11723,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -11736,7 +11734,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             date: "",
             user_id: "",
             eventList: "",
-            checkbox: ""
+            checkbox: "",
+            title: ""
         };
     },
     created: function created() {},
@@ -11763,7 +11762,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: this.title
             };
             this.$http.post('api/events/create', data).then(function (responce) {
-                console.log(responce.body);
                 _this.$parent.eventList.push(responce.body);
                 _this.$parent.getEvents();
                 _this.$refs[ref].close();
@@ -42426,7 +42424,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           'width': _vm.width
         })
       }, _vm._l((_vm.eventList), function(event) {
-        return ((user.id == event.user_id || event.user_id == 0) && day.day == event.day) ? _c('span', [(event.type == 'birthday') ? _c('md-icon', [_vm._v("cake")]) : _vm._e(), _vm._v(" "), (event.type == 'disease') ? _c('md-icon', [_vm._v("local_hospital")]) : _vm._e(), _vm._v(" "), (event.type == 'performance') ? _c('md-icon', [_vm._v("content_paste")]) : _vm._e(), _vm._v(" "), (event.type == 'vac') ? _c('md-icon', [_vm._v("beach_access")]) : _vm._e(), _vm._v(" "), _c('md-tooltip', {
+        return ((user.id == event.user_id || event.user_id == 0) && day.day == event.day) ? _c('span', {
+          class: event.type
+        }, [(event.type == 'birthday') ? _c('md-icon', [_vm._v("cake")]) : _vm._e(), _vm._v(" "), (event.type == 'disease') ? _c('md-icon', [_vm._v("local_hospital")]) : _vm._e(), _vm._v(" "), (event.type == 'performance') ? _c('md-icon', [_vm._v("content_paste")]) : _vm._e(), _vm._v(" "), (event.type == 'vac') ? _c('md-icon', [_vm._v("beach_access")]) : _vm._e(), _vm._v(" "), _c('md-tooltip', {
           attrs: {
             "md-direction": "top"
           }

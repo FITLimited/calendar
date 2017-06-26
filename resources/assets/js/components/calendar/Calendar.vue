@@ -26,7 +26,7 @@
                         </div>
                         <div v-for="user in userList" class="row-table user-events">
                             <div class="col-table" v-for="day in dayList" :style="{ 'width' : width }">
-                                    <span v-for="event in eventList" v-if="(user.id == event.user_id || event.user_id == 0) && day.day == event.day">
+                                    <span :class="event.type" v-for="event in eventList" v-if="(user.id == event.user_id || event.user_id == 0) && day.day == event.day">
                                         <md-icon v-if="event.type == 'birthday'">cake</md-icon>
                                         <md-icon v-if="event.type == 'disease'">local_hospital</md-icon>
                                         <md-icon v-if="event.type == 'performance'">content_paste</md-icon>

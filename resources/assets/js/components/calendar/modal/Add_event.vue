@@ -2,7 +2,6 @@
     <div>
         <md-dialog md-open-from="#fab" md-close-to="#fab" ref="add_event">
             <md-dialog-title>Add new event</md-dialog-title>
-
             <md-dialog-content>
                 <div class="row">
                     <div class="col-md-12">
@@ -43,7 +42,6 @@
                         <datepicker v-model="date" placeholder="Event date"></datepicker>
                     </div>
                 </div>
-
             </md-dialog-content>
             <md-dialog-actions>
                 <md-button class="md-primary" @click.native="closeDialog('add_event')">Cancel</md-button>
@@ -68,7 +66,8 @@
                 date: "",
                 user_id: "",
                 eventList: "",
-                checkbox: ""
+                checkbox: "",
+                title: ""
             }
         },
         created(){
@@ -98,7 +97,6 @@
                     title: this.title
                 };
                 this.$http.post('api/events/create', data).then(responce => {
-                    console.log(responce.body);
                     this.$parent.eventList.push(responce.body);
                     this.$parent.getEvents();
                     this.$refs[ref].close();

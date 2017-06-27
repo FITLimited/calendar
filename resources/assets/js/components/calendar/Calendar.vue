@@ -18,15 +18,17 @@
                 <div id="calendar">
                     <div class="calendar-table">
                         <div class="row-table date">
-                            <div class="col-table" v-for="day in dayList" :style="{ 'width' : width }">
+                            <div class="col-table" v-for="day in dayList" :style="{ 'width' : width + 'px' }">
                                 <br>
                                 {{ day.day }}<br>
                                 <small>{{ day.weekDay }}</small>
                             </div>
                         </div>
                         <div v-for="user in userList" class="row-table user-events">
-                            <div class="col-table" v-for="day in dayList" :style="{ 'width' : width }">
-                                    <span :class="event.type" v-for="event in eventList" v-if="(user.id == event.user_id || event.user_id == 0) && day.day == event.day">
+                            <div class="col-table" v-for="day in dayList" :style="{ 'width' : width + 'px' }">
+                                    <span :class="event.type" v-for="event in eventList"
+                                          v-if="(user.id == event.user_id || event.user_id == 0) && day.day == event.day"
+                                          :style="{ 'width' : event.duration * width + 'px' }">
                                         <md-icon v-if="event.type == 'birthday'">cake</md-icon>
                                         <md-icon v-if="event.type == 'disease'">local_hospital</md-icon>
                                         <md-icon v-if="event.type == 'performance'">content_paste</md-icon>
@@ -67,7 +69,7 @@
                 userList: '',
                 eventList: '',
                 birthdaysList: [],
-                width: width + "px"
+                width: width
             }
         },
         components: {
@@ -125,7 +127,8 @@
                             user_id: eventsList[h].user_id,
                             type: eventsList[h].type,
                             title: eventsList[h].title,
-                            day: date.getDate()
+                            day: date.getDate(),
+                            duration: eventsList[h].duration
                         };
                         convertEvents.push(event);
                     }
@@ -139,7 +142,8 @@
                                 user_id: this.birthdaysList[b].user_id,
                                 type: this.birthdaysList[b].type,
                                 title: "Birthday",
-                                day: dateBirthday.getDate()
+                                day: dateBirthday.getDate(),
+                                duration: 1
                             };
                             convertEvents.push(event);
                         }

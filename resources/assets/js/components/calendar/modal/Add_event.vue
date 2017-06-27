@@ -4,11 +4,15 @@
             <md-dialog-title>Add new event</md-dialog-title>
             <md-dialog-content>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <md-input-container>
                             <label>Title Event</label>
                             <md-input v-model="title"></md-input>
                         </md-input-container>
+                    </div>
+                    <div class="col-md-6" style="padding-top: 10px">
+                        <md-checkbox id="my-test2" name="my-test2" v-model="checkbox" class="md-primary">For all
+                        </md-checkbox>
                     </div>
                 </div>
                 <div class="row">
@@ -22,10 +26,11 @@
                             </md-select>
                         </md-input-container>
                     </div>
-                    <div class="col-md-6" style="padding-top: 10px">
-                        <md-checkbox id="my-test2" name="my-test2" v-model="checkbox" class="md-primary">For all
-                        </md-checkbox>
+
+                    <div class="col-md-6">
+                        <datepicker v-model="date" placeholder="Event date"></datepicker>
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -39,7 +44,10 @@
                         </md-input-container>
                     </div>
                     <div class="col-md-6">
-                        <datepicker v-model="date" placeholder="Event date"></datepicker>
+                        <md-input-container>
+                            <label>Duration (days)</label>
+                            <md-input v-model="duration"></md-input>
+                        </md-input-container>
                     </div>
                 </div>
             </md-dialog-content>
@@ -67,7 +75,8 @@
                 user_id: "",
                 eventList: "",
                 checkbox: "",
-                title: ""
+                title: "",
+                duration: ""
             }
         },
         created(){
@@ -94,7 +103,8 @@
                     user_id: this.user_id,
                     type: this.type_event,
                     date: converted_date,
-                    title: this.title
+                    title: this.title,
+                    duration: this.duration
                 };
                 this.$http.post('api/events/create', data).then(responce => {
                     this.$parent.eventList.push(responce.body);

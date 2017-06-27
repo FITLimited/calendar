@@ -9,6 +9,7 @@ class EventService
     {
         $event = new Event();
         $event->user_id = $request->user_id;
+        $event->duration = $request->duration;
         $event->type = $request->type;
         $event->date = $request->date;
         $event->title = $request->title;

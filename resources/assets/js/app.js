@@ -1,5 +1,5 @@
-require('./bootstrap')
-var VueMaterial = require('vue-material')
+require('./bootstrap');
+var VueMaterial = require('vue-material');
 
 window.Vue = require('vue')
 

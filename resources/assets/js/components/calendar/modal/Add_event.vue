@@ -65,7 +65,7 @@
 
 <script>
     import Datepicker from 'vuejs-datepicker';
-
+    var moment = require('moment');
     export default {
         data(){
             return {
@@ -91,18 +91,13 @@
                 this.$refs[ref].close();
             },
             addEvent(ref){
-
-                var converted_date = this.date.getFullYear() + "-" +
-                    (Number(this.date.getMonth()) + 1) + "-" +
-                    this.date.getDate() + " 12:00:00";
-
                 if (this.checkbox)
                     this.user_id = 0;
 
                 var data = {
                     user_id: this.user_id,
                     type: this.type_event,
-                    date: converted_date,
+                    date: moment(this.date).format('YYYY-MM-DD h:mm:ss'),
                     title: this.title,
                     duration: this.duration
                 };

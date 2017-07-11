@@ -8,6 +8,9 @@
                         <md-button @click.native="nextMonth" class="md-raised md-primary no-padding"> ></md-button>
                         <span style="padding: 0 10px">{{ monthList[date.getMonth()] + ", " + date.getFullYear()
                             }}</span>
+                        <div class="add-user-wr">
+                            <add-user v-if="user.role=='admin'"></add-user>
+                        </div>
                     </li>
                     <li v-for="user in userList">
                         <a href="#">{{ user.name }}</a>
@@ -41,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <add-event></add-event>
+        <add-event v-if="user.role=='admin'"></add-event>
     </div>
 </template>
 
@@ -57,9 +60,11 @@
         dayList.push({"day": d, "weekDay": weekDay[dayNumber]});
     }
     import Add_event from './modal/Add_event.vue'
+    import Add_user from './modal/Add_user.vue'
     export default {
         data(){
             return {
+                user: '',
                 month: today.getMonth(),
                 year: today.getFullYear(),
                 date: today,
@@ -74,8 +79,13 @@
         },
         components: {
             'add-event': Add_event,
+            'add-user': Add_user,
         },
         created(){
+            this.$http.get('api/user').then(responce => {
+                this.user = responce.body;
+            });
+
             this.$http.get('api/users').then(responce => {
                 this.userList = responce.body;
                 for (var u = 0; u < this.userList.length; u++) {

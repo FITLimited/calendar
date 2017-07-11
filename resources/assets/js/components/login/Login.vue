@@ -1,6 +1,7 @@
 <template>
     <div class="row">
         <div id="login_form" class="col-md-2 col-md-offset-5">
+
             <md-layout md-gutter>
                 <md-input-container>
                     <label>Email</label>

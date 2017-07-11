@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Login from './components/login/Login.vue'
-import Register from './components/login/Register.vue'
 import Calendar from './components/calendar/Calendar.vue'
 
 Vue.use(VueRouter)
@@ -19,13 +18,6 @@ const router = new VueRouter({
         {
             path: '/login',
             component: Login,
-            meta: {
-                forVisitors: true
-            }
-        },
-        {
-            path: '/register',
-            component: Register,
             meta: {
                 forVisitors: true
             }

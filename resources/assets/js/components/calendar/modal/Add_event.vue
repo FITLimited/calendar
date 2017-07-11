@@ -91,6 +91,7 @@
                 this.$refs[ref].close();
             },
             addEvent(ref){
+
                 if (this.checkbox)
                     this.user_id = 0;
 

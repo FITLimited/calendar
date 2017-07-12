@@ -5,7 +5,7 @@ use App\Event;
 
 class EventService
 {
-    public function add(Request $request)
+    public function create(Request $request)
     {
         $event = new Event();
         $event->user_id = $request->user_id;

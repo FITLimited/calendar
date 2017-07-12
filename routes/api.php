@@ -19,4 +19,5 @@ Route::group(['middleware' => 'auth:api'], function (){
     Route::get('users','UsersController@index');
 
     Route::get('/user', function (Request $request) { return $request->user(); });
+    Route::post('/user/create', 'UsersController@create');
 });

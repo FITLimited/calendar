@@ -23,7 +23,7 @@ class EventsController extends Controller
     }
 
     public function create(Request $request){
-        return $this->event_service->add($request);
+        return $this->event_service->create($request);
     }
 
 }

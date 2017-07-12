@@ -14,6 +14,7 @@ class UserService
         $user->password = $password ?: $password = bcrypt($request->password);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->birthday = $request->birthday;
         $user->role = "user";
         $user->remember_token = str_random(10);
         $user->created_at = date("Y-m-d H:i:s");

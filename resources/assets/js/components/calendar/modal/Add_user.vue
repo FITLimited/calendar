@@ -11,7 +11,7 @@
                         </md-input-container>
                     </div>
                     <div class="col-md-6">
-                        <datepicker v-model="date" placeholder="Birthday"></datepicker>
+                        <datepicker v-model="birthday" placeholder="Birthday"></datepicker>
                     </div>
                 </div>
                 <div class="row">
@@ -31,7 +31,7 @@
             </md-dialog-content>
             <md-dialog-actions>
                 <md-button class="md-primary" @click.native="closeDialog('add_user')">Cancel</md-button>
-                <md-button class="md-primary" @click.native="closeDialog('add_user')">Add</md-button>
+                <md-button class="md-primary" @click.native="createUser('add_user')">Add</md-button>
             </md-dialog-actions>
         </md-dialog>
 
@@ -47,7 +47,10 @@
     export default {
         data(){
             return {
-
+                name: "",
+                birthday: "",
+                email: "",
+                password: ""
             }
         },
         created(){
@@ -56,10 +59,31 @@
         methods: {
             openDialog(ref) {
                 this.$refs[ref].open();
-                this.userList = this.$parent.userList;
             },
             closeDialog(ref) {
                 this.$refs[ref].close();
+            },
+            createUser(ref){
+                var data = {
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+                    birthday: moment(this.birthday).format('YYYY-MM-DD h:mm:ss')
+                };
+                this.$http.post('api/user/create', data).then(responce => {
+                    this.$parent.userList.push(responce.body);
+
+                    var birthday = {
+                        user_id: responce.body.id,
+                        type: "birthday",
+                        date: responce.body.birthday
+                    };
+                    this.$parent.birthdaysList.push(birthday);
+                    this.$parent.getEvents();
+
+                    this.$refs[ref].close();
+                });
+
             }
         },
         components: {

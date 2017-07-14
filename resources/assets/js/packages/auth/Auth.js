@@ -24,8 +24,10 @@ export default function (Vue) {
             }
         },
         isAuthenticated()  {
-            if (this.getToken())
+            if (this.getToken()){
+                Vue.isAuth = true;
                 return true
+            }
             else
                 return false
         }

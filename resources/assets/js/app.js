@@ -41,6 +41,9 @@ Router.beforeEach(
 const calendar = new Vue({
     el: '#app',
     router: Router,
+    data: {
+      isAuth: false
+    },
     methods: {
 
     }

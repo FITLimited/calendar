@@ -42,7 +42,8 @@
                 this.$http.post('oauth/token', data)
                     .then(response => {
                         this.$auth.setToken(response.body.access_token, response.body.expires_in + Date.now());
-
+                        Vue.isAuth = true;
+                        Vue.http.headers.common['Authorization'] = 'Bearer ' + response.body.access_token;
                         this.$router.push("/calendar");
                     });
             }

@@ -14,6 +14,7 @@
                     </li>
                     <li v-for="user in userList">
                         <a href="#">{{ user.name }}</a>
+                        <md-button class="md-accent user-remove" @click.native="removeUser(user)"><md-icon>indeterminate_check_box</md-icon></md-button>
                     </li>
                 </ul>
             </div>
@@ -81,7 +82,7 @@
             'add-event': Add_event,
             'add-user': Add_user,
         },
-        created(){
+        mounted(){
             this.$http.get('api/user').then(responce => {
                 this.user = responce.body;
             });
@@ -163,6 +164,9 @@
 
                     this.generationMonth(this.year, this.month);
                 });
+            },
+            removeUser(user){
+
             }
         }
     }

@@ -19,4 +19,11 @@ class EventService
 
         return $event;
     }
+
+    public function remove(Request $request)
+    {
+        $event = Event::find("user_id", $request->id);
+        $event->delete();
+        return $request->id;
+    }
 }

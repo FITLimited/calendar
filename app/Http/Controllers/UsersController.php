@@ -23,4 +23,8 @@ class UsersController extends Controller
         return $this->user_service->create($request);
     }
 
+    public function remove(Request $request){
+        return $this->user_service->remove($request);
+    }
+
 }

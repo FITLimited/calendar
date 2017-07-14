@@ -46,6 +46,10 @@
             </div>
         </div>
         <add-event v-if="user.role=='admin'"></add-event>
+
+        <md-dialog-confirm :md-title="confirm.title" :md-content-html="confirm.contentHtml" :md-ok-text="confirm.ok"
+                :md-cancel-text="confirm.cancel" @close="confirm_delete" ref="delete_dialog">
+        </md-dialog-confirm>
     </div>
 </template>
 
@@ -75,7 +79,14 @@
                 userList: '',
                 eventList: '',
                 birthdaysList: [],
-                width: width
+                width: width,
+                confirm: {
+                    title: 'Confirm delete',
+                    contentHtml: 'Are you sure want to delete the user?',
+                    ok: 'Delete',
+                    cancel: 'Cancel'
+                },
+                remove_user: ""
             }
         },
         components: {
@@ -83,26 +94,28 @@
             'add-user': Add_user,
         },
         mounted(){
-            this.$http.get('api/user').then(responce => {
-                this.user = responce.body;
-            });
-
-            this.$http.get('api/users').then(responce => {
-                this.userList = responce.body;
-                for (var u = 0; u < this.userList.length; u++) {
-                    var birthday = {
-                        user_id: this.userList[u].id,
-                        type: "birthday",
-                        date: this.userList[u].birthday
-                    };
-                    this.birthdaysList.push(birthday);
-                }
-                this.getEvents();
-            });
-
+            this.loadUser();
         },
 
         methods: {
+            loadUser(){
+                this.$http.get('api/user').then(responce => {
+                    this.user = responce.body;
+                });
+
+                this.$http.get('api/users').then(responce => {
+                    this.userList = responce.body;
+                    for (var u = 0; u < this.userList.length; u++) {
+                        var birthday = {
+                            user_id: this.userList[u].id,
+                            type: "birthday",
+                            date: this.userList[u].birthday
+                        };
+                        this.birthdaysList.push(birthday);
+                    }
+                    this.getEvents();
+                });
+            },
             nextMonth(){
                 this.month++;
                 this.getEvents();
@@ -166,6 +179,20 @@
                 });
             },
             removeUser(user){
+                this.$refs["delete_dialog"].open();
+                this.remove_user = user;
+            },
+            confirm_delete(type) {
+                if(type == "ok"){
+
+                    var data = {
+                        id: this.remove_user.id,
+                    };
+
+                    this.$http.post('api/user/remove', data).then(responce => {
+                        this.loadUser();
+                    });
+                }
 
             }
         }

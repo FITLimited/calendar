@@ -1,10 +1,19 @@
 <?php
+
 namespace App\Services\User;
+
 use Illuminate\Http\Request;
+use App\Services\Event\EventService;
 use App\User;
 
 class UserService
 {
+    protected $event_service;
+
+    public function __construct(EventService $event_service)
+    {
+        $this->event_service = $event_service;
+    }
 
     public function create(Request $request)
     {
@@ -22,5 +31,13 @@ class UserService
         $user->save();
 
         return $user;
+    }
+
+    public function remove(Request $request)
+    {
+        $user = User::find($request->id);
+        $user->delete();
+        //$this->event_service->remove($request);
+        return $request->id;
     }
 }

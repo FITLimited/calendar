@@ -29,7 +29,8 @@
                             </div>
                         </div>
                         <div v-for="user in userList" class="row-table user-events">
-                            <div class="col-table" v-for="day in dayList" :style="{ 'width' : width + 'px' }">
+                            <div class="col-table" v-for="day in dayList" :style="{ 'width' : width + 'px' }"
+                                  :class="{ 'weekend': (day.weekDay == 'Sun' || day.weekDay == 'Sat') }">
                                     <span :class="event.type" v-for="event in eventList"
                                           v-if="(user.id == event.user_id || event.user_id == 0) && day.day == event.day"
                                           :style="{ 'width' : event.duration * width + 'px' }">

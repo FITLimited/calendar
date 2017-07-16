@@ -4,6 +4,7 @@ var VueMaterial = require('vue-material');
 window.Vue = require('vue')
 
 import VueResource from 'vue-resource'
+import VeeValidate from 'vee-validate'
 import Auth from './packages/auth/Auth.js'
 import Router from './route.js'
 
@@ -13,6 +14,7 @@ Vue.component('login', require('./components/login/Login.vue'))
 Vue.use(VueResource)
 Vue.use(Auth)
 Vue.use(VueMaterial)
+Vue.use(VeeValidate)
 
 
 Vue.http.options.root = "http://localhost";

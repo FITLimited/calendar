@@ -48,6 +48,10 @@ body {
         float: left;
         background-color: white;
         position: relative;
+
+        &.weekend{
+          background-color: rgb(249, 249, 249);
+        }
         span {
           line-height: 40px;
           position: absolute;

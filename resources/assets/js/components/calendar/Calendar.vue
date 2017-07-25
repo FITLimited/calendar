@@ -12,9 +12,10 @@
                             <add-user v-if="user.role=='admin'"></add-user>
                         </div>
                     </li>
-                    <li v-for="user in userList">
-                        <a href="#">{{ user.name }}</a>
-                        <md-button class="md-accent user-remove" @click.native="removeUser(user)"><md-icon>indeterminate_check_box</md-icon></md-button>
+                    <li v-for="us in userList">
+                        <a href="#">{{ us.name }}</a>
+                        <md-button v-if="user.role=='admin' && us.role != 'admin'" class="md-accent user-remove" @click.native="removeUser(us)"><md-icon>indeterminate_check_box</md-icon></md-button>
+                        <md-button v-if="user.role=='admin' && us.role != 'admin'" class="md-accent user-edit" @click.native="editUser(us)"><md-icon>create</md-icon></md-button>
                     </li>
                 </ul>
             </div>
@@ -143,6 +144,8 @@
                 };
 
                 this.$http.get('api/events?from=' + monthInfo.from + "&to=" + monthInfo.to).then(responce => {
+                    this.generationMonth(this.year, this.month);
+
                     var convertEvents = [];
                     var eventsList = responce.body;
 
@@ -161,7 +164,7 @@
                     //add Birthday to Event array
                     for (var b = 0; b < this.birthdaysList.length; b++) {
                         var dateBirthday = new Date(this.birthdaysList[b].date);
-                        if (dateBirthday.getMonth() == this.month) {
+                        if (monthList[this.date.getMonth()] == monthList[dateBirthday.getMonth()]) {
 
                             var event = {
                                 user_id: this.birthdaysList[b].user_id,
@@ -170,18 +173,23 @@
                                 day: dateBirthday.getDate(),
                                 duration: 1
                             };
+
                             convertEvents.push(event);
                         }
+
                     }
 
                     this.eventList = convertEvents;
 
-                    this.generationMonth(this.year, this.month);
+
                 });
             },
             removeUser(user){
                 this.$refs["delete_dialog"].open();
                 this.remove_user = user;
+            },
+            editUser(user){
+                Add_user.methods.test(user);
             },
             confirm_delete(type) {
                 if(type == "ok"){

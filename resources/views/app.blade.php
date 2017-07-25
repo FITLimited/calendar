@@ -9,6 +9,7 @@
 
     <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ asset('/css/all.css') }}" type="text/css">
+    {{--<link rel="stylesheet" href="{{ secure_asset('/css/all.css') }}" type="text/css">--}}
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
 </head>
@@ -21,4 +22,5 @@
 </div>
 </body>
 <script src="{{ asset('/js/app.js') }}"></script>
+{{--<script src="{{ secure_asset('/js/app.js') }}"></script>--}}
 </html>

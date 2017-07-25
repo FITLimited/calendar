@@ -192,6 +192,25 @@ body {
         opacity: 1;
       }
     }
+
+    .user-edit{
+      float: right;
+      height: 40px;
+      font-size: 11px;
+      opacity: 0.2;
+      border-radius: 0px;
+      padding: 0px;
+
+      i{
+        color: #1d93bb !important;
+        font-size: 15px;
+        line-height: 23px;
+      }
+
+      &:hover{
+        opacity: 1;
+      }
+    }
   }
 }
 

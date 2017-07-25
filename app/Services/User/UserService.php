@@ -24,6 +24,7 @@ class UserService
         $user->name = $request->name;
         $user->email = $request->email;
         $user->birthday = $request->birthday;
+        $user->working_from = $request->working_from;
         $user->role = "user";
         $user->remember_token = str_random(10);
         $user->created_at = date("Y-m-d H:i:s");
@@ -40,4 +41,17 @@ class UserService
         //$this->event_service->remove($request);
         return $request->id;
     }
+
+    public function update(Request $request)
+    {
+        $user = User::find($request->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->birthday = $request->birthday;
+        $user->working_from = $request->working_from;
+        $user->updated_at = date("Y-m-d H:i:s");
+        $user->save();
+        return $user;
+    }
+
 }

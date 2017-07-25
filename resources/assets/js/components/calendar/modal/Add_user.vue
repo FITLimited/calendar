@@ -16,6 +16,7 @@
                                         placeholder="Birthday"></datepicker>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <md-input-container>
@@ -30,6 +31,12 @@
                                 <md-input data-vv-name="password" v-validate="'required|min:6'" type="password"
                                           v-model="password"></md-input>
                             </md-input-container>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <datepicker data-vv-name="working_from" v-validate="'required'" v-model="working_from"
+                                        placeholder="Beginning of work"></datepicker>
                         </div>
                     </div>
                     <div v-show="errors.first('name')" class="alert alert-danger">
@@ -66,6 +73,7 @@
             return {
                 name: "",
                 birthday: "",
+                working_from: "",
                 email: "",
                 password: ""
             }
@@ -77,6 +85,13 @@
             openDialog(ref) {
                 this.$refs[ref].open();
             },
+            test(user){
+                this.name = user.name;
+                this.birthday = user.birthday;
+                this.working_from = user.working_from;
+                this.email = user.email;
+                console.log(user);
+            },
             closeDialog(ref) {
                 this.$refs[ref].close();
             },
@@ -87,6 +102,7 @@
                         name: this.name,
                         email: this.email,
                         password: this.password,
+                        working_from: moment(this.working_from).format('YYYY-MM-DD h:mm:ss'),
                         birthday: moment(this.birthday).format('YYYY-MM-DD h:mm:ss')
                     };
                     this.$http.post('api/user/create', data).then(responce => {

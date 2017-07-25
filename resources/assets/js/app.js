@@ -17,6 +17,7 @@ Vue.use(VueMaterial)
 Vue.use(VeeValidate)
 
 
+//Vue.http.options.root = "https://c.fit-limited.com/public";
 Vue.http.options.root = "http://localhost";
 Vue.http.headers.common['Authorization'] = 'Bearer ' + Vue.auth.getToken();
 

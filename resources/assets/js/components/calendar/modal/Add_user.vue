@@ -8,11 +8,11 @@
                         <div class="col-md-6">
                             <md-input-container>
                                 <label>Name</label>
-                                <md-input data-vv-name="name" v-validate="'required'" v-model="name"></md-input>
+                                <md-input data-vv-name="name" v-validate="'required'" v-model="user.name"></md-input>
                             </md-input-container>
                         </div>
                         <div class="col-md-6">
-                            <datepicker data-vv-name="birthday" v-validate="'required'" v-model="birthday"
+                            <datepicker data-vv-name="birthday" v-validate="'required'" v-model="user.birthday"
                                         placeholder="Birthday"></datepicker>
                         </div>
                     </div>
@@ -22,20 +22,20 @@
                             <md-input-container>
                                 <label>Email</label>
                                 <md-input data-vv-name="email" v-validate="'required|email'" type="email"
-                                          v-model="email"></md-input>
+                                          v-model="user.email"></md-input>
                             </md-input-container>
                         </div>
                         <div class="col-md-6">
                             <md-input-container>
                                 <label>Password</label>
                                 <md-input data-vv-name="password" v-validate="'required|min:6'" type="password"
-                                          v-model="password"></md-input>
+                                          v-model="user.password"></md-input>
                             </md-input-container>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <datepicker data-vv-name="working_from" v-validate="'required'" v-model="working_from"
+                            <datepicker data-vv-name="working_from" v-validate="'required'" v-model="user.working_from"
                                         placeholder="Beginning of work"></datepicker>
                         </div>
                     </div>
@@ -71,39 +71,37 @@
     export default {
         data(){
             return {
-                name: "",
-                birthday: "",
-                working_from: "",
-                email: "",
-                password: ""
+                user: {
+                    name: "",
+                    birthday: "",
+                    working_from: "",
+                    email: "",
+                    password: ""
+                }
+
             }
         },
         created(){
-
+            this.$parent.refs = this.$refs;
         },
         methods: {
             openDialog(ref) {
                 this.$refs[ref].open();
             },
             test(user){
-                this.name = user.name;
-                this.birthday = user.birthday;
-                this.working_from = user.working_from;
-                this.email = user.email;
-                console.log(user);
+                this.user.name = user.name;
             },
             closeDialog(ref) {
                 this.$refs[ref].close();
             },
             createUser(ref){
-
                 this.$validator.validateAll().then(() => {
                     var data = {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password,
-                        working_from: moment(this.working_from).format('YYYY-MM-DD h:mm:ss'),
-                        birthday: moment(this.birthday).format('YYYY-MM-DD h:mm:ss')
+                        name: this.user.name,
+                        email: this.user.email,
+                        password: this.user.password,
+                        working_from: moment(this.user.working_from).format('YYYY-MM-DD h:mm:ss'),
+                        birthday: moment(this.user.birthday).format('YYYY-MM-DD h:mm:ss')
                     };
                     this.$http.post('api/user/create', data).then(responce => {
                         this.$parent.userList.push(responce.body);

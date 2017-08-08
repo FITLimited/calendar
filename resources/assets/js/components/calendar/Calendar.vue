@@ -88,7 +88,8 @@
                     ok: 'Delete',
                     cancel: 'Cancel'
                 },
-                remove_user: ""
+                remove_user: "",
+                refs: "",
             }
         },
         components: {
@@ -189,6 +190,8 @@
                 this.remove_user = user;
             },
             editUser(user){
+                this.$refs['add_user'] = this.refs["add_user"];
+                this.$refs['add_user'].open();
                 Add_user.methods.test(user);
             },
             confirm_delete(type) {

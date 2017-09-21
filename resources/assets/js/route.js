@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-import Login from './components/login/Login.vue'
-import Calendar from './components/calendar/Calendar.vue'
+import Login from './components/login/Login.vue';
+import Calendar from './components/calendar/Calendar.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const router = new VueRouter({
     routes: [

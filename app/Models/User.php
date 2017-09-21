@@ -1,11 +1,18 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * @property string password
+ * @property mixed name
+ * @property mixed email
+ * @property mixed birthday
+ * @property mixed working_from
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -16,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'birthday'
+        'name', 'email', 'birthday', 'password'
     ];
 
     /**
@@ -27,4 +34,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    // Custom attributes -----------------------------------------------------------------------------------------------
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
 }

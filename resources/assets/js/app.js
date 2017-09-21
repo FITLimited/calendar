@@ -1,54 +1,45 @@
-require('./bootstrap');
-var VueMaterial = require('vue-material');
-
-window.Vue = require('vue')
-
+import vue from "vue";
 import VueResource from 'vue-resource'
 import VeeValidate from 'vee-validate'
+import VueMaterial from "vue-material";
 import Auth from './packages/auth/Auth.js'
 import Router from './route.js'
 
-Vue.component('app-menu', require('./components/Menu.vue'))
-Vue.component('login', require('./components/login/Login.vue'))
+window.Vue = vue;
 
-Vue.use(VueResource)
-Vue.use(Auth)
-Vue.use(VueMaterial)
-Vue.use(VeeValidate)
+vue.component('app-menu', require('./components/Menu.vue'));
+vue.component('login', require('./components/login/Login.vue'));
 
+vue.use(VueResource);
+vue.use(VueMaterial);
+vue.use(VeeValidate);
+vue.use(Auth);
 
-//Vue.http.options.root = "https://c.fit-limited.com/public";
-Vue.http.options.root = "http://localhost";
-Vue.http.headers.common['Authorization'] = 'Bearer ' + Vue.auth.getToken();
-
-Router.beforeEach(
-    (to, from, next) => {
-        if (to.matched.some(record => record.meta.forVisitors)) {
-            if (Vue.auth.isAuthenticated()) {
-                next({
-                    path: '/calendar'
-                })
-            } else next()
-        } else if (to.matched.some(record => record.meta.forAuth)) {
-            if (!Vue.auth.isAuthenticated()) {
-                next({
-                    path: '/login'
-                })
-            } else next()
-        }
-
-        else next()
-    }
-);
+// Vue.http.options.root = "http://calendar.app";
+// Vue.http.headers.common['Authorization'] = 'Bearer ' + Vue.auth.getToken();
+//
+// Router.beforeEach(
+//     (to, from, next) => {
+//         if (to.matched.some(record => record.meta.forVisitors)) {
+//             if (Vue.auth.isAuthenticated()) {
+//                 next({
+//                     path: '/calendar'
+//                 })
+//             } else next()
+//         } else if (to.matched.some(record => record.meta.forAuth)) {
+//             if (!Vue.auth.isAuthenticated()) {
+//                 next({
+//                     path: '/login'
+//                 })
+//             } else next()
+//         }
+//
+//         else next()
+//     }
+// );
 
 const calendar = new Vue({
     el: '#app',
     router: Router,
-    data: {
-      isAuth: false
-    },
-    methods: {
-
-    }
 });
 

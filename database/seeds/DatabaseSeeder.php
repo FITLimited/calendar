@@ -11,6 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\User::class, 10)->create();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('users')->delete();
+        DB::table('user_roles')->delete();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        $this->call(UserRolesTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
     }
 }

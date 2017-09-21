@@ -1,0 +1,1 @@
+export var appUrl = 'http://calendar.app/api/v1/';

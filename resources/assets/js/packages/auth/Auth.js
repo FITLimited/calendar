@@ -2,7 +2,6 @@ export default function (Vue) {
     Vue.auth = {
         setToken(token)  {
             localStorage.setItem('token', token)
-
         },
         destroyToken() {
             localStorage.removeItem('token');
@@ -12,13 +11,16 @@ export default function (Vue) {
 
             if (!token)
                 return null
+
+            return token;
         },
         isAuthenticated()  {
             if (this.getToken()){
                 return true
             }
-            else
+            else {
                 return false
+            }
         }
     }
 

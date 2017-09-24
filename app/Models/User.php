@@ -32,13 +32,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'role_id', 'created_at', 'updated_at'
     ];
 
+    public function role()
+    {
+        return $this->hasOne(UserRole::class, 'id', 'role_id');
+    }
 
     // Custom attributes -----------------------------------------------------------------------------------------------
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+
 }

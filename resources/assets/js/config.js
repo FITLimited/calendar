@@ -1,1 +1,1 @@
-export var appUrl = 'http://calendar.app/api/v1/';
+export const appUrl = 'http://calendar.app/api/v1/';

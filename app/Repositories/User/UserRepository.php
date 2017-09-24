@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
+use App\Models\UserRole;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -19,5 +20,20 @@ class UserRepository implements UserRepositoryInterface
         $user->save();
 
         return $user;
+    }
+
+    public function get($userId) {
+        return User::query()
+                    ->with('role')
+                    ->find($userId);
+    }
+
+    public function users() {
+        return User::query()
+            ->with('role')
+            ->whereHas('role', function($query) {
+                $query->where('role', UserRole::USER);
+            })
+            ->get();
     }
 }

@@ -181,6 +181,7 @@ return [
 
         // FIT custom providers
         App\Providers\UserServiceProvider::class,
+        App\Providers\CustomEventServiceProvider::class,
     ],
 
     /*

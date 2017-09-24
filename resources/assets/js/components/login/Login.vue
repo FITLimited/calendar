@@ -38,6 +38,7 @@
                 AuthService.login(this.data).then(response => {
                     if (response.body.success == true) {
                         this.$auth.setToken(response.body.data.token.access_token);
+                        this.$http.headers.common['Authorization'] = 'Bearer ' + this.$auth.getToken();
                         this.$router.push("/calendar");
                     } else {
                         console.log('Authorisation fail');

@@ -13,7 +13,6 @@ class UserRole extends Model
 
     const ADMIN = 'Admin';
     const USER  = 'User';
-    const GUEST = 'Guest';
 
     public function users()
     {

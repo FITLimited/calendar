@@ -1,22 +1,23 @@
-import vue from "vue";
-import VueResource from 'vue-resource'
-import VeeValidate from 'vee-validate'
-import VueMaterial from "vue-material";
+import Vue from 'vue';
+import VueResource from 'vue-resource';
+import VeeValidate from 'vee-validate';
+import VueMaterial from 'vue-material';
+import VueMoment from 'vue-moment';
 import Auth from './packages/auth/Auth.js'
 import Router from './route.js'
 
-window.Vue = vue;
+Vue.use(VueResource);
+Vue.use(VueMaterial);
+Vue.use(VeeValidate);
+Vue.use(VueMoment);
+Vue.use(Auth);
 
-vue.component('app-menu', require('./components/Menu.vue'));
-vue.component('login', require('./components/login/Login.vue'));
+Vue.component('calendar', require('./components/calendar/Calendar.vue'));
+Vue.component('app-menu', require('./components/Menu.vue'));
+Vue.component('login', require('./components/login/Login.vue'));
 
-vue.use(VueResource);
-vue.use(VueMaterial);
-vue.use(VeeValidate);
-vue.use(Auth);
-
-// Vue.http.options.root = "http://calendar.app";
-// Vue.http.headers.common['Authorization'] = 'Bearer ' + Vue.auth.getToken();
+Vue.http.options.root = "http://calendar.app";
+Vue.http.headers.common['Authorization'] = 'Bearer ' + Vue.auth.getToken();
 //
 // Router.beforeEach(
 //     (to, from, next) => {

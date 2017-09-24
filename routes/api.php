@@ -21,7 +21,18 @@ Route::group(['prefix' => '/v1'], function ()
         Route::post('/register', 'AuthController@register');
     });
 
+    Route::group(['prefix' => '/users', 'namespace' => '\Api\v1', 'middleware' => 'auth:api'], function ()
+    {
+        Route::get('/', 'UserController@getUsers');
+        Route::get('/self', 'AccountController@getUser');
+//        Route::post('/update', 'AccountController@updateUser');
+//        Route::post('/update-password', 'AccountController@updatePassword');
+    });
 
+    Route::group(['prefix' => '/events', 'namespace' => '\Api\v1', 'middleware' => 'auth:api'], function ()
+    {
+        Route::get('/', 'EventController@getEvents');
+    });
 });
 
 //Route::group(['middleware' => 'auth:api'], function (){

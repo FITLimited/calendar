@@ -96,6 +96,45 @@ class UserService
         return $result;
     }
 
+    /**
+     * @param Request $request
+     * @return ActionResult
+     */
+    public function getUser(Request $request)
+    {
+        $result = new ActionResult();
+
+        $userId = $request->user()->id;
+
+        $rules = [
+            'userId' => 'required|exists:users,id',
+        ];
+
+        $validator = Validator::make(['userId' => $userId], $rules);
+
+        if ($validator->passes()) {
+            $user = $this->userRepository->get($userId);
+
+            $result->setData('user', $user);
+            $result->success('');
+        } else {
+            $result->errorValidation($validator->messages()->toArray());
+        }
+
+        return $result;
+    }
+
+    public function getUsers() {
+        $result = new ActionResult();
+
+        $users = $this->userRepository->users();
+
+        $result->setData('users', $users);
+        $result->success('');
+
+        return $result;
+    }
+
 //    public function remove(Request $request)
 //    {
 //        $user = User::find($request->id);

@@ -39,21 +39,34 @@ class EventService
         return $result;
     }
 
-//    public function create(Request $request)
-//    {
-//        $event = new Event();
-//        $event->user_id = $request->user_id;
-//        $event->duration = $request->duration;
-//        $event->type = $request->type;
-//        $event->date = $request->date;
-//        $event->title = $request->title;
-//        $event->created_at = date("Y-m-d H:i:s");
-//        $event->updated_at = date("Y-m-d H:i:s");
-//        $event->save();
-//
-//        return $event;
-//    }
-//
+    public function create(Request $request)
+    {
+        $result = new ActionResult();
+
+        $data = $request->all();
+
+        $rules = [
+            'user_id'   => 'exists:users,id',
+            'duration'  => 'required|numeric',
+            'type'      => 'required|string',
+            'date'      => 'required|date',
+            'title'     => 'required|string',
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->passes()) {
+            $event = $this->eventRepository->create($data);
+
+            $result->setData('event', $event);
+            $result->success('');
+        } else {
+            $result->errorValidation($validator->messages()->toArray());
+        }
+
+        return $result;
+    }
+
 //    public function remove(Request $request)
 //    {
 //        $event = Event::find("user_id", $request->id);

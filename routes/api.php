@@ -32,6 +32,7 @@ Route::group(['prefix' => '/v1'], function ()
     Route::group(['prefix' => '/events', 'namespace' => '\Api\v1', 'middleware' => 'auth:api'], function ()
     {
         Route::get('/', 'EventController@getEvents');
+        Route::post('/create', 'EventController@create');
     });
 });
 

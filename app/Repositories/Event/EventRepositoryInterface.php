@@ -5,4 +5,6 @@ namespace App\Repositories\Event;
 interface EventRepositoryInterface
 {
     public function events($from, $to);
+
+    public function create($data);
 }

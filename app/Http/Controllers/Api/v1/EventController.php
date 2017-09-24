@@ -22,10 +22,12 @@ class EventController extends BaseApiController
 
         return $this->apiResponse($result);
     }
-//
-//    public function create(Request $request)
-//    {
-//        return $this->event_service->create($request);
-//    }
+
+    public function create(Request $request)
+    {
+        $result = $this->eventService->create($request);
+
+        return $this->apiResponse($result);
+    }
 
 }

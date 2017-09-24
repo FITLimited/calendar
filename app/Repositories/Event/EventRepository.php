@@ -16,4 +16,13 @@ class EventRepository implements EventRepositoryInterface
     public function events($from, $to) {
         return Event::whereBetween('date', [$from, $to])->get();
     }
+
+    public function create($data)
+    {
+        $event = new Event();
+        $event->fill($data);
+        $event->save();
+
+        return $event;
+    }
 }

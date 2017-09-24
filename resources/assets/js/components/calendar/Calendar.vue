@@ -31,9 +31,7 @@
                         <div v-for="user in users" class="row-table user-events">
                             <div class="col-table" v-for="day in dayList" :style="{ 'width' : width + 'px' }"
                                   :class="{ 'weekend': (day.weekDay == 'Sun' || day.weekDay == 'Sat') }">
-                                    <span :class="event.type" v-for="event in eventList"
-                                          v-if="(user.id == event.user_id || event.user_id == 0) && day.day == event.day"
-                                          :style="{ 'width' : event.duration * width + 'px' }">
+                                    <span :class="event.type" v-for="event in events" :style="{ 'width' : width + 'px' }">
                                         <md-icon v-if="event.type == 'birthday'">cake</md-icon>
                                         <md-icon v-if="event.type == 'disease'">local_hospital</md-icon>
                                         <md-icon v-if="event.type == 'performance'">content_paste</md-icon>
@@ -46,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <add-event v-if="user.role=='admin'"></add-event>
+        <add-event v-if="user && user.role.role == 'Admin'"></add-event>
 
         <!--<md-dialog-confirm :md-title="confirm.title" :md-content-html="confirm.contentHtml" :md-ok-text="confirm.ok"-->
                 <!--:md-cancel-text="confirm.cancel" ref="delete_dialog">-->
@@ -57,15 +55,17 @@
 <script>
     import AuthService from '../../services/AuthService';
     import UserService from '../../services/UserService';
+    import EventService from '../../services/EventService';
 
-    import Add_event from './modal/Add_event.vue'
-    import Add_user from './modal/Add_user.vue'
+    import AddEvent from './modal/AddEvent.vue'
+    import AddUser from './modal/AddUser.vue'
 
     export default {
         data(){
             return {
-                user: {},
+                user: null,
                 users: [],
+                events: [],
                 date: new Date(),
                 dayList: [],
                 monthDayEnded: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate(),
@@ -76,13 +76,14 @@
             }
         },
         components: {
-            'add-event': Add_event,
-            'add-user': Add_user,
+            'add-event': AddEvent,
+            'add-user': AddUser,
         },
         mounted(){
             this.composeDayList();
             this.userSelf();
             this.getUsers();
+            this.getEvents();
         },
 
         methods: {
@@ -108,93 +109,23 @@
                 });
             },
             nextMonth(){
-//                this.month++;
-//                this.getEvents();
+                this.date = new Date(this.date.setMonth(this.date.getMonth() + 1));
+                this.getEvents();
             },
             prevMonth() {
-//                this.month--;
-//                this.getEvents();
+                this.date = new Date(this.date.setMonth(this.date.getMonth() - 1));
+                this.getEvents();
             },
-//            generationMonth(year, month) {
-//                this.date = new Date(year, month);
-//                this.lastDayMonth = new Date(year, month + 1, 0).getDate();
-//
-//                this.dayList = [];
-//                for (d = 1; d <= this.lastDayMonth; d++) {
-//                    dayNumber = (new Date(year, month, d)).getDay();
-//                    this.dayList.push({"day": d, "weekDay": weekDay[dayNumber]});
-//                }
-//
-//            },
-            getEvents(){
-//                var monthInfo = {
-//                    from: this.year + "-" + (this.month + 1) + "-01",
-//                    to: this.year + "-" + (this.month + 1) + "-" + this.lastDayMonth
-//                };
-//
-//                this.$http.get('api/events?from=' + monthInfo.from + "&to=" + monthInfo.to).then(responce => {
-//                    this.generationMonth(this.year, this.month);
-//
-//                    var convertEvents = [];
-//                    var eventsList = responce.body;
-//
-//                    for (var h = 0; h < eventsList.length; h++) {
-//                        var date = new Date(eventsList[h].date);
-//                        var event = {
-//                            user_id: eventsList[h].user_id,
-//                            type: eventsList[h].type,
-//                            title: eventsList[h].title,
-//                            day: date.getDate(),
-//                            duration: eventsList[h].duration
-//                        };
-//                        convertEvents.push(event);
-//                    }
-//
-//                    //add Birthday to Event array
-//                    for (var b = 0; b < this.birthdaysList.length; b++) {
-//                        var dateBirthday = new Date(this.birthdaysList[b].date);
-//                        if (monthList[this.date.getMonth()] == monthList[dateBirthday.getMonth()]) {
-//
-//                            var event = {
-//                                user_id: this.birthdaysList[b].user_id,
-//                                type: this.birthdaysList[b].type,
-//                                title: "Birthday",
-//                                day: dateBirthday.getDate(),
-//                                duration: 1
-//                            };
-//
-//                            convertEvents.push(event);
-//                        }
-//
-//                    }
-//
-//                    this.eventList = convertEvents;
-//
-//
-//                });
+            getEvents() {
+                var from = `${this.date.getFullYear()}-${this.date.getMonth() + 1}-01`;
+                var to = `${this.date.getFullYear()}-${this.date.getMonth() + 1}-${this.monthDayEnded}`;
+
+                EventService.events(from, to).then(response => {
+                    this.events = response.body.data.events;
+                }, error => {
+                    console.log(error);
+                });
             },
-//            removeUser(user){
-//                this.$refs["delete_dialog"].open();
-//                this.remove_user = user;
-//            },
-//            editUser(user){
-//                this.$refs['add_user'] = this.refs["add_user"];
-//                this.$refs['add_user'].open();
-//                Add_user.methods.test(user);
-//            },
-//            confirm_delete(type) {
-//                if(type == "ok"){
-//
-//                    var data = {
-//                        id: this.remove_user.id,
-//                    };
-//
-//                    this.$http.post('api/user/remove', data).then(responce => {
-//                        this.loadUser();
-//                    });
-//                }
-//
-//            }
         }
     }
 </script>

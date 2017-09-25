@@ -5,14 +5,18 @@ use Validator;
 use Illuminate\Http\Request;
 
 use App\Helpers\ActionResult;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Event\EventRepositoryInterface;
 
 class EventService
 {
     protected $eventRepository;
+    protected $userRepository;
 
-    public function __construct(EventRepositoryInterface $eventRepository) {
+    public function __construct(EventRepositoryInterface $eventRepository,
+                                UserRepositoryInterface $userRepository) {
         $this->eventRepository = $eventRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function getEvents(Request $request) {
@@ -28,7 +32,10 @@ class EventService
         $validator = Validator::make($data, $rules);
 
         if ($validator->passes()) {
-            $events = $this->eventRepository->events($data['from'], $data['to']);
+            $events = $this->getBaseEvents($data['from'], $data['to']);
+            $birthdays = $this->getBirthdays($data['from'], $data['to']);
+
+            $events = $events->toBase()->merge($birthdays)->all();
 
             $result->setData('events', $events);
             $result->success('');
@@ -65,6 +72,27 @@ class EventService
         }
 
         return $result;
+    }
+
+    private function getBaseEvents($from, $to) {
+        return $this->eventRepository->events($from, $to);
+    }
+
+    private function getBirthdays($from, $to) {
+        return $this->userRepository
+            ->birthdays($from, $to)
+            ->map(function ($event) {
+                $event['user_id'] = $event['id'];
+                $event['duration'] = 1;
+                $event['type'] = 'birthday';
+                $event['title'] = 'Birthday';
+                $event['event_date'] = $event['user_birthday'];
+                unset($event['name']);
+                unset($event['email']);
+                unset($event['user_birthday']);
+                return $event;
+            }
+        );
     }
 
 //    public function remove(Request $request)

@@ -109,6 +109,8 @@
                     if (this.checkbox)
                         this.user_id = 0;
 
+                    this.event.date = moment(this.event.date).format('YYYY-MM-DD');
+
                     EventService.create(this.event).then(() => {
                         this.$parent.getEvents();
                         this.$refs[ref].close();

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use Illuminate\Http\Request;
+
 use App\Services\UserService;
 use App\Http\Controllers\BaseApiController;
 
@@ -20,8 +22,15 @@ class UserController extends BaseApiController
         return $this->apiResponse($result);
     }
 
-//    public function remove(Request $request){
-//        return $this->userService->remove($request);
-//    }
+    public function updateUser(Request $request){
+        $result = $this->userService->update($request);
 
+        return $this->apiResponse($result);
+    }
+
+    public function removeUser(Request $request){
+        $result = $this->userService->remove($request);
+
+        return $this->apiResponse($result);
+    }
 }

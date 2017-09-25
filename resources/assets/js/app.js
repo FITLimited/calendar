@@ -15,6 +15,7 @@ Vue.use(Auth);
 Vue.component('calendar', require('./components/calendar/Calendar.vue'));
 Vue.component('app-menu', require('./components/Menu.vue'));
 Vue.component('login', require('./components/login/Login.vue'));
+Vue.component('user', require('./components/calendar/User.vue'));
 
 Vue.http.options.root = "http://calendar.app";
 Vue.http.headers.common['Authorization'] = 'Bearer ' + Vue.auth.getToken();

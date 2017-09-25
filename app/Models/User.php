@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -23,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'birthday', 'password'
+        'name', 'email', 'birthday', 'password', 'working_from'
     ];
 
     /**
@@ -32,7 +33,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'role_id', 'created_at', 'updated_at'
+        'password', 'remember_token', 'role_id', 'created_at', 'updated_at', 'birthday', 'working_from'
+    ];
+
+    protected $appends  = [
+        'user_birthday', 'user_working_from'
     ];
 
     public function role()
@@ -46,5 +51,11 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+    public function getUserBirthdayAttribute() {
+        return Carbon::parse($this->birthday)->toDateString();
+    }
 
+    public function getUserWorkingFromAttribute() {
+        return Carbon::parse($this->working_from)->toDateString();
+    }
 }

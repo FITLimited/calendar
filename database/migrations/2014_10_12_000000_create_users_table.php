@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('role_id')->default('2');
+            $table->timestamp('working_from');
             $table->timestamp('birthday');
             $table->string('password');
             $table->rememberToken();

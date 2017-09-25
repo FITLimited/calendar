@@ -25,8 +25,8 @@ Route::group(['prefix' => '/v1'], function ()
     {
         Route::get('/', 'UserController@getUsers');
         Route::get('/self', 'AccountController@getUser');
-//        Route::post('/update', 'AccountController@updateUser');
-//        Route::post('/update-password', 'AccountController@updatePassword');
+        Route::get('/remove/{user}', 'UserController@removeUser');
+        Route::post('/update', 'UserController@updateUser');
     });
 
     Route::group(['prefix' => '/events', 'namespace' => '\Api\v1', 'middleware' => 'auth:api'], function ()
@@ -35,13 +35,3 @@ Route::group(['prefix' => '/v1'], function ()
         Route::post('/create', 'EventController@create');
     });
 });
-
-//Route::group(['middleware' => 'auth:api'], function (){
-//    Route::get('events','EventsController@index');
-//    Route::post('events/create','EventsController@create');
-//    Route::get('users','UsersController@index');
-//
-//    Route::get('/user', function (Request $request) { return $request->user(); });
-//    Route::post('/user/create', 'UsersController@create');
-//    Route::post('/user/remove', 'UsersController@remove');
-//});

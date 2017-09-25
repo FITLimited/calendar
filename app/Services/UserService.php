@@ -70,6 +70,10 @@ class UserService
         return $result;
     }
 
+    /**
+     * @param Request $request
+     * @return ActionResult
+     */
     public function create(Request $request)
     {
         $result = new ActionResult();
@@ -77,10 +81,11 @@ class UserService
         $data = $request->all();
 
         $rules = [
-            'name'      => 'string|required|min:2',
-            'birthday'  => 'required|date',
-            'email'     => 'string|required|email',
-            'password'  => 'string|required'
+            'name'          => 'string|required|min:2',
+            'birthday'      => 'required|date',
+            'working_from'  => 'required|date',
+            'email'         => 'string|required|email',
+            'password'      => 'string|required'
         ];
 
         $validator = Validator::make($data, $rules);
@@ -124,6 +129,9 @@ class UserService
         return $result;
     }
 
+    /**
+     * @return ActionResult
+     */
     public function getUsers() {
         $result = new ActionResult();
 
@@ -135,24 +143,57 @@ class UserService
         return $result;
     }
 
-//    public function remove(Request $request)
-//    {
-//        $user = User::find($request->id);
-//        $user->delete();
-//        //$this->event_service->remove($request);
-//        return $request->id;
-//    }
-//
-//    public function update(Request $request)
-//    {
-//        $user = User::find($request->id);
-//        $user->name = $request->name;
-//        $user->email = $request->email;
-//        $user->birthday = $request->birthday;
-//        $user->working_from = $request->working_from;
-//        $user->updated_at = date("Y-m-d H:i:s");
-//        $user->save();
-//        return $user;
-//    }
+    /**
+     * @param Request $request
+     * @return ActionResult
+     */
+    public function remove(Request $request)
+    {
+        $result = new ActionResult();
+
+        $userId = $request->route('user');
+
+        $rules = [
+            'userId' => 'required|exists:users,id',
+        ];
+
+        $validator = Validator::make(['userId' => $userId], $rules);
+
+        if ($validator->passes()) {
+            $this->userRepository->remove($userId);
+
+            $result->allOK();
+        } else {
+            $result->errorValidation($validator->messages()->toArray());
+        }
+
+        return $result;
+    }
+
+    public function update(Request $request)
+    {
+        $result = new ActionResult();
+
+        $data = $request->all();
+
+        $rules = [
+            'name'          => 'string|required|min:2',
+            'birthday'      => 'required|date',
+            'working_from'  => 'required|date',
+            'email'         => 'string|required|email'
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->passes()) {
+            $this->userRepository->update($data);
+
+            $result->allOK();
+        } else {
+            $result->errorValidation($validator->messages()->toArray());
+        }
+
+        return $result;
+    }
 
 }

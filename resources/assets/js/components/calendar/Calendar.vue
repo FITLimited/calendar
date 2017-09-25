@@ -2,21 +2,7 @@
     <div class="main-content">
         <div class="row box-shadow">
             <div class="part width-20">
-                <ul class="user-list">
-                    <li>
-                        <md-button @click.native="prevMonth" class="md-raised md-primary no-padding"> <</md-button>
-                        <md-button @click.native="nextMonth" class="md-raised md-primary no-padding"> ></md-button>
-                        <span style="padding: 0 10px">{{ date | moment("MMMM, YYYY") }}</span>
-                        <!--<div class="add-user-wr">-->
-                            <!--<add-user v-if="user.role=='admin'"></add-user>-->
-                        <!--</div>-->
-                    </li>
-                    <li v-for="user in users">
-                        <a href="#">{{ user.name }}</a>
-                        <md-button v-if="user.role.role == 'Admin'" class="md-accent user-remove" @click.native="removeUser(user)"><md-icon>indeterminate_check_box</md-icon></md-button>
-                        <md-button v-if="user.role.role == 'Admin'" class="md-accent user-edit" @click.native="editUser(user)"><md-icon>create</md-icon></md-button>
-                    </li>
-                </ul>
+                <user v-bind:users="users" v-bind:auth_user="user"></user>
             </div>
             <div class="part width-80">
                 <div id="calendar">
@@ -31,7 +17,12 @@
                         <div v-for="user in users" class="row-table user-events">
                             <div class="col-table" v-for="day in dayList" :style="{ 'width' : width + 'px' }"
                                   :class="{ 'weekend': (day.weekDay == 'Sun' || day.weekDay == 'Sat') }">
-                                    <span :class="event.type" v-for="event in events" :style="{ 'width' : width + 'px' }">
+                                    <span
+                                            :class="event.type"
+                                            v-for="event in events"
+                                            v-if="event.event_date == day.date && (event.user_id == user.id || event.user_id == 0)"
+                                            :style="{ 'width' : width * event.duration + 'px' }"
+                                    >
                                         <md-icon v-if="event.type == 'birthday'">cake</md-icon>
                                         <md-icon v-if="event.type == 'disease'">local_hospital</md-icon>
                                         <md-icon v-if="event.type == 'performance'">content_paste</md-icon>
@@ -58,7 +49,6 @@
     import EventService from '../../services/EventService';
 
     import AddEvent from './modal/AddEvent.vue'
-    import AddUser from './modal/AddUser.vue'
 
     export default {
         data(){
@@ -77,9 +67,8 @@
         },
         components: {
             'add-event': AddEvent,
-            'add-user': AddUser,
         },
-        mounted(){
+        mounted() {
             this.composeDayList();
             this.userSelf();
             this.getUsers();
@@ -88,9 +77,19 @@
 
         methods: {
             composeDayList() {
+                this.dayList = [];
+
                 for (var i = 1; i <= this.monthDayEnded; i++) {
-                    var day = (new Date(this.date.getFullYear(), this.date.getMonth(), i)).getDay();
-                    this.dayList.push({"day": i, "weekDay": this.days[day]});
+                    var dayOfWeek = (new Date(this.date.getFullYear(), this.date.getMonth(), i)).getDay();
+
+                    var year = this.date.getFullYear();
+                    var month = this.date.getMonth() + 1;
+
+                    this.dayList.push({
+                        'day': i,
+                        'weekDay': this.days[dayOfWeek],
+                        'date': `${year}-${month >= 10 ? month : '0' + month}-${i >= 10 ? i : '0' + i}`
+                    });
                 }
             },
 
@@ -110,10 +109,12 @@
             },
             nextMonth(){
                 this.date = new Date(this.date.setMonth(this.date.getMonth() + 1));
+                this.composeDayList();
                 this.getEvents();
             },
             prevMonth() {
                 this.date = new Date(this.date.setMonth(this.date.getMonth() - 1));
+                this.composeDayList();
                 this.getEvents();
             },
             getEvents() {
@@ -125,7 +126,7 @@
                 }, error => {
                     console.log(error);
                 });
-            },
+            }
         }
     }
 </script>

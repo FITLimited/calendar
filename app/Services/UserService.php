@@ -170,6 +170,10 @@ class UserService
         return $result;
     }
 
+    /**
+     * @param Request $request
+     * @return ActionResult
+     */
     public function update(Request $request)
     {
         $result = new ActionResult();

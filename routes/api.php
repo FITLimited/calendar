@@ -25,13 +25,15 @@ Route::group(['prefix' => '/v1'], function ()
     {
         Route::get('/', 'UserController@getUsers');
         Route::get('/self', 'AccountController@getUser');
-        Route::get('/remove/{user}', 'UserController@removeUser');
         Route::post('/update', 'UserController@updateUser');
+        Route::get('/remove/{user}', 'UserController@removeUser');
     });
 
     Route::group(['prefix' => '/events', 'namespace' => '\Api\v1', 'middleware' => 'auth:api'], function ()
     {
         Route::get('/', 'EventController@getEvents');
         Route::post('/create', 'EventController@create');
+        Route::post('/update', 'EventController@update');
+        Route::get('/remove/{event}', 'EventController@remove');
     });
 });

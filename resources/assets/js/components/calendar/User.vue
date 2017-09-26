@@ -164,6 +164,12 @@
             closeDialog(ref) {
                 this.$refs[ref].close();
             },
+            nextMonth() {
+                this.$parent.nextMonth();
+            },
+            prevMonth() {
+                this.$parent.prevMonth();
+            },
             editUser(user) {
                 this.user = user;
                 this.user.birthday = user.user_birthday;

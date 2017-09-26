@@ -5,41 +5,11 @@
                 <user v-bind:users="users" v-bind:auth_user="user"></user>
             </div>
             <div class="part width-80">
-                <div id="calendar">
-                    <div class="calendar-table">
-                        <div class="row-table date">
-                            <div class="col-table" v-for="day in dayList" :style="{ 'width' : width + 'px' }">
-                                <br>
-                                {{ day.day }}<br>
-                                <small>{{ day.weekDay }}</small>
-                            </div>
-                        </div>
-                        <div v-for="user in users" class="row-table user-events">
-                            <div class="col-table" v-for="day in dayList" :style="{ 'width' : width + 'px' }"
-                                  :class="{ 'weekend': (day.weekDay == 'Sun' || day.weekDay == 'Sat') }">
-                                    <span
-                                            :class="event.type"
-                                            v-for="event in events"
-                                            v-if="event.event_date == day.date && (event.user_id == user.id || event.user_id == 0)"
-                                            :style="{ 'width' : width * event.duration + 'px' }"
-                                    >
-                                        <md-icon v-if="event.type == 'birthday'">cake</md-icon>
-                                        <md-icon v-if="event.type == 'disease'">local_hospital</md-icon>
-                                        <md-icon v-if="event.type == 'performance'">content_paste</md-icon>
-                                        <md-icon v-if="event.type == 'vac'">beach_access</md-icon>
-                                        <md-tooltip md-direction="top">{{ event.title }}</md-tooltip>
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <event v-bind:users="users" v-bind:events="events" v-bind:days="days"></event>
             </div>
         </div>
-        <add-event v-if="user && user.role.role == 'Admin'"></add-event>
+        <!--<add-event v-if="user && user.role.role == 'Admin'"></add-event>-->
 
-        <!--<md-dialog-confirm :md-title="confirm.title" :md-content-html="confirm.contentHtml" :md-ok-text="confirm.ok"-->
-                <!--:md-cancel-text="confirm.cancel" ref="delete_dialog">-->
-        <!--</md-dialog-confirm>-->
     </div>
 </template>
 
@@ -48,8 +18,6 @@
     import UserService from '../../services/UserService';
     import EventService from '../../services/EventService';
 
-    import AddEvent from './modal/AddEvent.vue'
-
     export default {
         data(){
             return {
@@ -57,16 +25,12 @@
                 users: [],
                 events: [],
                 date: new Date(),
-                dayList: [],
+                days: [],
                 monthDayEnded: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate(),
-                days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 months: ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                     'August', 'September', 'October', 'November', 'December'],
-                width: ((window.innerWidth * 0.8)) / 31
             }
-        },
-        components: {
-            'add-event': AddEvent,
         },
         mounted() {
             this.composeDayList();
@@ -77,7 +41,7 @@
 
         methods: {
             composeDayList() {
-                this.dayList = [];
+                this.days = [];
 
                 for (var i = 1; i <= this.monthDayEnded; i++) {
                     var dayOfWeek = (new Date(this.date.getFullYear(), this.date.getMonth(), i)).getDay();
@@ -85,14 +49,13 @@
                     var year = this.date.getFullYear();
                     var month = this.date.getMonth() + 1;
 
-                    this.dayList.push({
+                    this.days.push({
                         'day': i,
-                        'weekDay': this.days[dayOfWeek],
+                        'weekDay': this.weekDays[dayOfWeek],
                         'date': `${year}-${month >= 10 ? month : '0' + month}-${i >= 10 ? i : '0' + i}`
                     });
                 }
             },
-
             userSelf() {
                 AuthService.getSelf().then(response => {
                     this.user = response.body.data.user;

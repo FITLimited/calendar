@@ -16,6 +16,10 @@ class EventController extends BaseApiController
         $this->eventService = $eventService;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getEvents(Request $request)
     {
         $result = $this->eventService->getEvents($request);
@@ -23,6 +27,10 @@ class EventController extends BaseApiController
         return $this->apiResponse($result);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
         $result = $this->eventService->create($request);
@@ -30,4 +38,25 @@ class EventController extends BaseApiController
         return $this->apiResponse($result);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request)
+    {
+        $result = $this->eventService->udpate($request);
+
+        return $this->apiResponse($result);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function remove(Request $request)
+    {
+        $result = $this->eventService->remove($request);
+
+        return $this->apiResponse($result);
+    }
 }

@@ -8,4 +8,10 @@ export default {
     create(event) {
         return Vue.http.post(appUrl + 'events/create', event);
     },
+    update(event) {
+        return Vue.http.post(appUrl + 'events/update', event);
+    },
+    remove(event) {
+        return Vue.http.post(appUrl + 'events/remove/' + event.id);
+    },
 }

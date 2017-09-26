@@ -16,29 +16,10 @@ Vue.component('calendar', require('./components/calendar/Calendar.vue'));
 Vue.component('app-menu', require('./components/Menu.vue'));
 Vue.component('login', require('./components/login/Login.vue'));
 Vue.component('user', require('./components/calendar/User.vue'));
+Vue.component('event', require('./components/calendar/Event.vue'));
 
 Vue.http.options.root = "http://calendar.app";
 Vue.http.headers.common['Authorization'] = 'Bearer ' + Vue.auth.getToken();
-//
-// Router.beforeEach(
-//     (to, from, next) => {
-//         if (to.matched.some(record => record.meta.forVisitors)) {
-//             if (Vue.auth.isAuthenticated()) {
-//                 next({
-//                     path: '/calendar'
-//                 })
-//             } else next()
-//         } else if (to.matched.some(record => record.meta.forAuth)) {
-//             if (!Vue.auth.isAuthenticated()) {
-//                 next({
-//                     path: '/login'
-//                 })
-//             } else next()
-//         }
-//
-//         else next()
-//     }
-// );
 
 const calendar = new Vue({
     el: '#app',
